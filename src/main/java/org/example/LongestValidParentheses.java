@@ -58,7 +58,7 @@ public class LongestValidParentheses {
     }
 
     public static void main() {
-        String s = "(()";
+        String s = "(())";
         LongestValidParentheses obj = new LongestValidParentheses();
         int result = obj.longestValidParentheses(s);
         System.out.println("Length of longest valid parentheses: " + result);

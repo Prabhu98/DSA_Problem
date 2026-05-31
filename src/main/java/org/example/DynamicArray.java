@@ -1,0 +1,110 @@
+package org.example;
+
+import java.util.Arrays;
+
+public class DynamicArray {
+
+    private int[] arr;
+    private int size;
+    private int capacity;
+
+    public DynamicArray(int capacity) {
+        this.capacity = capacity;
+        this.arr = new int[capacity];
+        this.size = 0;
+    }
+
+    // Validate index for insert
+    private void validateInsertIndex(int index) {
+        if (index < 0 || index > size ) {
+            throw new IndexOutOfBoundsException("Invalid index for insert: " + index);
+        }
+    }
+
+    // Validate index for access/update/delete
+    private void validateIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+    }
+
+    public boolean insert(int index, int element) {
+        validateInsertIndex(index);
+        if( size >= capacity) {
+            resisze();
+        }
+        for (int i = size; i > index; i--) {
+            arr[i] = arr[i - 1];
+        }
+        arr[index] = element;
+        size++;
+        return true;
+    }
+
+    public boolean delete(int index) {
+        validateIndex(index);
+        for (int i = index; i < size - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+        size--;
+        return true;
+    }
+
+    public int get(int index) {
+        validateIndex(index);
+        return arr[index];
+    }
+
+    public void set(int index, int element) {
+        validateIndex(index);
+        arr[index] = element;
+    }
+
+    public int search(int element) {
+        for (int i = 0; i < size; i++) {
+            if (arr[i] == element) {
+                return i;
+            }
+        }
+        return -1; // not found
+    }
+
+    public void display() {
+        System.out.println(Arrays.toString(Arrays.copyOfRange(arr, 0, size)));
+    }
+
+    //Dynamic Array
+    public void resisze(){
+        capacity = 2 * capacity;
+        int[] newArr = new int[capacity];
+        for(int i=0;i<size;i++){
+            newArr[i] = arr[i];
+        }
+        arr = newArr;
+    }
+
+    public static void main(String[] args) {
+        DynamicArray a1 = new DynamicArray(4);
+
+        a1.insert(0, 4);
+        a1.insert(1, 2);
+        a1.insert(2, 3);
+        a1.insert(3, 60);
+        a1.insert(4,20);
+
+        System.out.println(a1.capacity);
+
+        a1.display(); // [4, 2, 60, 3]
+
+        a1.delete(1);
+        a1.display(); // [4, 60, 3]
+
+        a1.set(1, 20);
+        System.out.println("Element at index 1: " + a1.get(1)); // 20
+
+        a1.display();
+
+        int idx = a1.search(3);
+        System.out.println("Index of 3: " + idx);
+    }
+}
